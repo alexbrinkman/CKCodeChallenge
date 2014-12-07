@@ -16,6 +16,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bourbon'
 gem 'neat'
 
+gem 'rottentomatoes'
+
 group :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
