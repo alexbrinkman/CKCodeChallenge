@@ -1,11 +1,13 @@
 <h1>CK DEV PROJECT</h1>
 <h2>Welcome Movie Enthusiast</h2>
 
-<p>
+<%= form_tag('/past', method: 'get') do %>
   Fetch Last Weekend's Movie Box Office Results.
-  Show Top
+  <%= select_tag 'show', options_for_select([ '5', '10', '15', '20', '25' ], '10') %>
+  <%= submit_tag('Search', name: nil) %>
+<% end %>
 
-  <%= select_tag "movie_count", options_for_select([ '5', '10', '15', '20', '25' ], '10') %>
-</p>
-
-<p>Create Box Office Rankings for the next 4 weeks.</p>
+<%= form_tag('/future', method: 'get') do %>
+  Create Box Office Rankings for the next 4 weeks.
+  <%= submit_tag('Create', name: nil) %>
+<% end %>

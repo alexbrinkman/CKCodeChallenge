@@ -1,1 +1,21 @@
 <h1>Box Office Projections for the Weekend starting:</h1>
+
+<h2>Ranking on date:</h2>
+<table>
+  <tr>
+    <th>11/22</th>
+    <th>11/29</th>
+    <th>12/6</th>
+    <th>12/13</th>
+    <th>&nbsp;</th>
+  </tr>
+<% @movies.each do |movie| %>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><%=movie.title %></td>
+    </tr>
+<% end %>
+</table>
