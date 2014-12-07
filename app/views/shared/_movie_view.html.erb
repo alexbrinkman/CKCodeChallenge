@@ -1,0 +1,12 @@
+<div class="movie-view">
+  <h2><%= movie.title %></h2>
+  <div class="movie-view-col1">
+    <%= image_tag(movie.poster_url, class: 'movie-thumb', alt: movie.title) %>
+  </div>
+  <div class="movie-view-col2">
+    <div>(<%= movie.year %>) <%= movie.mpaa_rating %></div>
+    <div><%= render partial: 'shared/critics_line', locals: { movie: movie } %></div>
+    <div><%= render partial: 'shared/audience_line', locals: { movie: movie } %></div>
+    <div><%= render partial: 'shared/movie_links', locals: { movie: movie } %></div>
+  </div>
+</div>

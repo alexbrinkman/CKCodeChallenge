@@ -1,7 +1,5 @@
 <h1>Box Office Results for the Weekend of:</h1>
 
 <% @movies.each do |movie| %>
-  <div class="movie-view">
-    <h2><%=movie.title %></h2>
-  </div>
+  <%= render partial: 'shared/movie_view', locals: {movie: movie} %>
 <% end %>

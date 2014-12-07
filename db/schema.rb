@@ -15,15 +15,15 @@ ActiveRecord::Schema.define(version: 20141206221816) do
 
   create_table "movies", force: true do |t|
     t.string   "title"
-    t.string   "poster_thumb_url"
+    t.string   "poster_url"
     t.integer  "year"
     t.string   "mpaa_rating"
     t.string   "critics_rating"
     t.integer  "critics_score"
     t.string   "audience_rating"
     t.integer  "audience_score"
-    t.string   "movie_details"
-    t.string   "movie_reviews"
+    t.string   "movie_details_url"
+    t.string   "movie_reviews_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

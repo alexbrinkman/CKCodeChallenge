@@ -19,20 +19,20 @@ feature 'site walkthrough' do
   scenario 'user directly visits last weekends box office results' do
     visit '/past'
     expect(page).to have_text('Box Office Results for the Weekend of:')
-    expect(page).to have_css('h2', count: 10)
+    expect(page).to have_css('.movie-view', count: 10)
+    expect(page).to have_css('img.movie-thumb', count: 10)
   end
 
-  #todo: better way to select movies?.
   scenario 'user can change number of movies to show' do
     visit '/'
-    select('25', :from => 'show')
+    select('25', from: 'show')
     click_button('Search')
-    expect(page).to have_css('h2', count: 25)
+    expect(page).to have_css('.movie-view', count: 25)
 
     visit '/'
-    select('5', :from => 'show')
+    select('5', from: 'show')
     click_button('Search')
-    expect(page).to have_css('h2', count: 5)
+    expect(page).to have_css('.movie-view', count: 5)
   end
 
   scenario 'user directly visits future box office projections' do

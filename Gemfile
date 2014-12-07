@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.1.8'
 
 # Use sqlite3 as the database for Active Record
@@ -12,10 +11,10 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'sdoc', '~> 0.4.0', group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+gem 'bourbon'
+gem 'neat'
 
 group :test do
   gem 'factory_girl_rails'
@@ -23,9 +22,10 @@ group :test do
   gem 'capybara'
 end
 
-group :development, :test do
-  gem 'debugger'
+group :development do
+  gem 'spring'
 end
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+group :test, :development do
+  gem 'debugger'
+end

@@ -1,0 +1,35 @@
+@import "bourbon";
+@import "grid_settings";
+@import "neat";
+@import "partials/colors";
+// @import "partials/breakpoints";
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 87.5%;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 1em 0;
+  line-height: 1.5em;
+}
+
+div.main {
+  @include outer-container;
+}
+
+div.movie-view {
+  @include row();
+
+  div.movie-view-col1 {
+    @include span-columns(3);
+  }
+
+  div.movie-view-col2 {
+    @include span-columns(9);
+  }
+}

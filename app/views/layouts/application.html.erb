@@ -2,12 +2,15 @@
 <html>
 <head>
   <title>RottenTomatoes</title>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+<div class="main">
+  <%= yield %>
+</div>
 
 </body>
 </html>
