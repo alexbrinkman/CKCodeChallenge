@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206221816) do
+ActiveRecord::Schema.define(version: 20141208003239) do
+
+  create_table "api_calls", force: true do |t|
+    t.string   "source"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "movies", force: true do |t|
     t.string   "title"

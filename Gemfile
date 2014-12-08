@@ -16,12 +16,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bourbon'
 gem 'neat'
 
-gem 'rottentomatoes'
+gem 'httparty'
 
 group :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'webmock'
+  gem 'timecop'
 end
 
 group :development do
