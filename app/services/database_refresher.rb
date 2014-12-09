@@ -5,12 +5,11 @@ require 'net/http'
 class DatabaseRefresher
 
   def self.refresh
-    puts 'Refreshing movies'
-    debugger
+    Rails.logger.info 'Refreshing movies'
     if refresh_cache?
-      puts 'The movie cache is expired, calling RottenTomatoes api.'
+      Rails.logger.info 'The movie cache has expired, calling RottenTomatoes api.'
       movies = call_api
-      Movie.destroy_all
+      Movie.destroy_all  # todo: store results in temp file until verified?
       movies.each do |movie|
         # todo: add ranking
         new_movie = Movie.new
@@ -27,14 +26,19 @@ class DatabaseRefresher
         new_movie.save
         # todo: error handling
       end
+      # todo: log how many entries.
     else
-      puts 'The movie cache is still valid, database is valid.'
+      Rails.logger.info 'The movie cache is still valid, database was not refreshed.'
     end
   end
 
+  #todo: test?
   def self.call_api
+    debugger
+    # todo: move string to constants file
     uri = URI('http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=bbbv6grs52qsvyerxqstj7zr&limit=25')
     response = Net::HTTP.get(uri)
+    ApiCall.create(source: 'web_refresh', status: '200')
     movie_hash = JSON.parse(response)
     movie_hash['movies']
   end

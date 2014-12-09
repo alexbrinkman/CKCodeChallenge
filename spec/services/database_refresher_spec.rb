@@ -19,9 +19,16 @@ RSpec.describe DatabaseRefresher do
       expect{ DatabaseRefresher.refresh }.to change{ Movie.count }.from(0).to(25)
     end
 
+    it 'should write a new entry to the api_calls table with success and a timestamp' do
+      DatabaseRefresher.stub(:refresh_cache?).and_return(true)
+      Movie.delete_all # Make sure we are at 0 to know that the count changed.
+      expect{ DatabaseRefresher.refresh }.to change{ ApiCall.count }.by(1)
+    end
+
     it 'should not refresh the database if it has been less than the cached amount of time' do
       DatabaseRefresher.stub(:refresh_cache?).and_return(false)
       expect{ DatabaseRefresher.refresh }.not_to change{ Movie.count }
+      expect{ DatabaseRefresher.refresh }.not_to change{ ApiCall.count }
     end
 
   end
@@ -48,8 +55,12 @@ RSpec.describe DatabaseRefresher do
       expect(DatabaseRefresher.refresh_cache?).to be true
     end
 
-    it 'should refresh cache there are no movies in the database' do
+    it 'should refresh cache if there are no movies in the database' do
       expect(DatabaseRefresher.refresh_cache?).to be true
+    end
+
+    it 'should refresh cache if the force flag is set to true' do
+
     end
   end
 

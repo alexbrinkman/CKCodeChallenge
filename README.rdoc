@@ -1,9 +1,11 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Welcome Commerce Kitchen, and thank you for the opportunity.
 
-Things you may want to cover:
+# Assumptions
+
+# Installation
+Installation instructions
 
 * Ruby version
 
@@ -21,8 +23,12 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
-
-
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+#todo
+* Change from SQLLite
+* Make sure brand guidelines are met
+* Move database refresh to background worker?
+* Projections
+* Deprication notices

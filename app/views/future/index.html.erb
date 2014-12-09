@@ -1,21 +1,21 @@
 <h1>Box Office Projections for the Weekend starting:</h1>
 
 <h2>Ranking on date:</h2>
+
 <table>
   <tr>
-    <th>11/22</th>
-    <th>11/29</th>
-    <th>12/6</th>
-    <th>12/13</th>
-    <th>&nbsp;</th>
+    <% @weeks.each do |date| %>
+      <th><%= date %></th>
+    <% end %>
+      <th>&nbsp;</th>
   </tr>
-<% @movies.each do |movie| %>
+  <% @movies.each do |movie| %>
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td><%=movie.title %></td>
+      <td><%= movie[:week1] %></td>
+      <td><%= movie[:week2] %></td>
+      <td><%= movie[:week3] %></td>
+      <td><%= movie[:week4] %></td>
+      <td><%= movie[:title] %></td>
     </tr>
-<% end %>
+  <% end %>
 </table>
