@@ -33,3 +33,5 @@ Please feel free to use a different markup language if you do not plan to run
 * Move database refresh to background worker?
 * Projections
 * Deprication notices
+* Check for N+1 queries
+* Way to clear database

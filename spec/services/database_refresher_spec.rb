@@ -59,6 +59,12 @@ RSpec.describe DatabaseRefresher do
       expect(DatabaseRefresher.refresh_cache?).to be true
     end
 
+    it 'should refresh cache if there have been no successful api calls' do
+      ApiCall.delete_all
+      30.times {|i| FactoryGirl.create(:movie, title: "Movie#{i}")}
+      expect(DatabaseRefresher.refresh_cache?).to be true
+    end
+
     it 'should refresh cache if the force flag is set to true' do
 
     end

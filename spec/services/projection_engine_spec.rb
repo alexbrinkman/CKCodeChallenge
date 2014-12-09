@@ -21,11 +21,11 @@ RSpec.describe ProjectionEngine do
 
   end
 
-  context '.get_movies' do
+  context '.project_rankings' do
 
     it 'should rank the first weekend in the order given' do
       movie_list = ['Movie1', 'Movie2', 'Movie3', 'Movie4', 'Movie5']
-      results = ProjectionEngine.get_movies(movie_list)
+      results = ProjectionEngine.project_rankings(movie_list)
 
       # Just to be sure the order didn't change
       titles = results.map {|item| item[:title]}
@@ -35,6 +35,18 @@ RSpec.describe ProjectionEngine do
       expect(week1).to eq([1,2,3,4,5])
     end
 
+    it 'should assign a random, but unique, ranking for weeks 2-4' do
+      movie_list = ['Movie1', 'Movie2', 'Movie3', 'Movie4', 'Movie5']
+
+      # Since the rankings are random, run through several times to make sure it
+      # didn't pass by chance.
+      30.times do
+        results = ProjectionEngine.project_rankings(movie_list)
+        result = results.map {|item| item[:week2]}
+        expect(result.uniq.length).to eq(result.length)
+      end
+    end
+
   end
 
-end
+  end

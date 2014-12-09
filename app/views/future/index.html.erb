@@ -4,12 +4,12 @@
 
 <table>
   <tr>
-    <% @weeks.each do |date| %>
+    <% @projections[:weeks].each do |date| %>
       <th><%= date %></th>
     <% end %>
       <th>&nbsp;</th>
   </tr>
-  <% @movies.each do |movie| %>
+  <% @projections[:movies].each do |movie| %>
     <tr>
       <td><%= movie[:week1] %></td>
       <td><%= movie[:week2] %></td>

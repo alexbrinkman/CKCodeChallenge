@@ -37,7 +37,7 @@ class DatabaseRefresher
     # todo: move string to constants file
     uri = URI('http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=bbbv6grs52qsvyerxqstj7zr&limit=25')
     response = Net::HTTP.get(uri)
-    ApiCall.create(source: 'web_refresh', status: '200')
+    ApiCall.create(source: 'web_refresh', status: 200)
     movie_hash = JSON.parse(response)
     movie_hash['movies']
   end
@@ -46,10 +46,10 @@ class DatabaseRefresher
     #todo: can this be cleaner?
     return true if Movie.count < 25 #todo: change this to constant
     last_successful_call = ApiCall.where(status: 200).last
-    if !last_successful_call.nil? && last_successful_call.created_at < Time.zone.now - 1.hour
-      return true
+    if last_successful_call.nil? || last_successful_call.created_at < Time.zone.now - 1.hour
+      true
     else
-      return false
+      false
     end
   end
 
