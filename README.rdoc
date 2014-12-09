@@ -3,6 +3,7 @@
 Welcome Commerce Kitchen, and thank you for the opportunity.
 
 # Assumptions
+* Only ever want 4 weeks of movie projections, and only 5 movies.
 
 # Installation
 Installation instructions

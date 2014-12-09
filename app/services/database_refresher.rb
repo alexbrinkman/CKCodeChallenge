@@ -34,7 +34,6 @@ class DatabaseRefresher
 
   #todo: test?
   def self.call_api
-    debugger
     # todo: move string to constants file
     uri = URI('http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=bbbv6grs52qsvyerxqstj7zr&limit=25')
     response = Net::HTTP.get(uri)
