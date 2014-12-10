@@ -3,13 +3,10 @@ require 'spec_helper'
 
 RSpec.describe DatabaseRefresher do
 
-  # todo: constants
-  ROTTEN_TOMATOES_URI = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=bbbv6grs52qsvyerxqstj7zr&limit=25'
-
   context '.refresh' do
 
     before(:each) do
-      stub_request(:get, ROTTEN_TOMATOES_URI)
+      stub_request(:get, RT_CONSTANTS['callable_uri'])
         .to_return(body: File.new('./spec/support/sample_response.json'), status: 200)
     end
 
@@ -31,6 +28,10 @@ RSpec.describe DatabaseRefresher do
       expect{ DatabaseRefresher.refresh }.not_to change{ ApiCall.count }
     end
 
+    it 'should refresh the database if the force flag is set to true' do
+      expect(DatabaseRefresher.refresh true).to be true
+    end
+
   end
 
   context '.refresh_cache' do
@@ -46,12 +47,16 @@ RSpec.describe DatabaseRefresher do
     end
 
     it 'should not refresh cache if less than allowed timeframe' do
+      minutes_to_cache = RT_CONSTANTS['minutes_to_cache'].to_i
       30.times {|i| FactoryGirl.create(:movie, title: "Movie#{i}")}
+      Timecop.travel(Time.zone.now + minutes_to_cache.minutes - 1.minute)
       expect(DatabaseRefresher.refresh_cache?).to be false
     end
 
     it 'should refresh cache if more than allowed timeframe' do
-      Timecop.travel(Time.zone.now + 1.hour)
+      minutes_to_cache = RT_CONSTANTS['minutes_to_cache'].to_i
+      30.times {|i| FactoryGirl.create(:movie, title: "Movie#{i}")}
+      Timecop.travel(Time.zone.now + minutes_to_cache.minutes + 1.minute)
       expect(DatabaseRefresher.refresh_cache?).to be true
     end
 
@@ -60,14 +65,11 @@ RSpec.describe DatabaseRefresher do
     end
 
     it 'should refresh cache if there have been no successful api calls' do
-      ApiCall.delete_all
       30.times {|i| FactoryGirl.create(:movie, title: "Movie#{i}")}
+      ApiCall.delete_all
       expect(DatabaseRefresher.refresh_cache?).to be true
     end
 
-    it 'should refresh cache if the force flag is set to true' do
-
-    end
   end
 
 end

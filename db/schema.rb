@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208003239) do
+ActiveRecord::Schema.define(version: 20141210035124) do
 
   create_table "api_calls", force: true do |t|
     t.string   "source"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20141208003239) do
     t.string   "movie_reviews_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "box_office_ranking"
   end
 
 end

@@ -18,18 +18,34 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.5em;
 }
 
+header {
+  @include outer-container;
+}
+
 div.main {
   @include outer-container;
 }
 
 div.movie-view {
   @include row();
+  margin-bottom: 4em;
 
   div.movie-view-col1 {
-    @include span-columns(3);
+    @include span-columns(2);
   }
 
   div.movie-view-col2 {
-    @include span-columns(9);
+    @include span-columns(10);
+    h3 {
+      margin-top: 0;
+    }
+    span {
+      vertical-align: middle;
+      display: inline-block;
+      height: 50px;
+    }
+    .links {
+      margin-right: 1em;
+    }
   }
 }

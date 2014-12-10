@@ -2,14 +2,14 @@ test:
   base_uri: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json
   api_key: bbbv6grs52qsvyerxqstj7zr
   limit: 25
-  cache_length: 60
+  minutes_to_cache: 60
 development:
   base_uri: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json
   api_key: bbbv6grs52qsvyerxqstj7zr
   limit: 25
-  cache_length: 60
+  minutes_to_cache: 60
 production:
   base_uri: http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json
   api_key: bbbv6grs52qsvyerxqstj7zr
   limit: 25
-  cache_length: 60
+  minutes_to_cache: 60

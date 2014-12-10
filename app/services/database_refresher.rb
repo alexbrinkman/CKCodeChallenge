@@ -4,15 +4,15 @@ require 'net/http'
 
 class DatabaseRefresher
 
-  def self.refresh
-    Rails.logger.tagged('Database Refresh') { Rails.logger.info 'Checking for the need to refresh database.'}
-    if refresh_cache?
-      Rails.logger.tagged('Database Refresh') { Rails.logger.info 'The movie cache has expired, calling RottenTomatoes api.'}
+  def self.refresh(force = false)
+    log 'Checking for the need to refresh database.'
+    if force || refresh_cache?
+      log 'The movie cache has expired, calling RottenTomatoes api.'
       movies = call_api
-      Movie.destroy_all  # todo: store results in temp file until verified?
-      movies.each do |movie|
-        # todo: add ranking
+      Movie.destroy_all
+      movies.each_with_index do |movie, index|
         new_movie = Movie.new
+        new_movie.box_office_ranking = index + 1
         new_movie.title = movie['title']
         new_movie.poster_url = movie['posters']['thumbnail']
         new_movie.year = movie['year']
@@ -26,31 +26,40 @@ class DatabaseRefresher
         new_movie.save
         # todo: error handling
       end
-      # todo: log how many entries.
+      log 'The movie cache was sucessfully refreshed.'
     else
-      Rails.logger.tagged('Database Refresh') { Rails.logger.info 'The movie cache is still valid, database was not refreshed.'}
+      log 'The movie cache is still valid, database was not refreshed.'
     end
   end
 
-  #todo: test?
   def self.call_api
-    # todo: move string to constants file
-    uri = URI('http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=bbbv6grs52qsvyerxqstj7zr&limit=25')
+    uri = URI(RT_CONSTANTS['callable_uri'])
     response = Net::HTTP.get(uri)
-    ApiCall.create(source: 'web_refresh', status: 200)
+    ApiCall.create(source: 'web_refresh', status: 200) #todo: what if it fails?
     movie_hash = JSON.parse(response)
     movie_hash['movies']
   end
 
   def self.refresh_cache?
-    #todo: can this be cleaner?
-    return true if Movie.count < 25 #todo: change this to constant
+    return true if Movie.count < RT_CONSTANTS['limit']
+    return true if expired_cache?
+    false
+  end
+
+  private
+
+  def self.expired_cache?
+    minutes_to_cache = RT_CONSTANTS['minutes_to_cache'].to_i
     last_successful_call = ApiCall.where(status: 200).last
-    if last_successful_call.nil? || last_successful_call.created_at < Time.zone.now - 1.hour
+    if last_successful_call.nil? || last_successful_call.created_at < Time.zone.now - minutes_to_cache.minutes
       true
     else
       false
     end
+  end
+
+  def self.log(message)
+    Rails.logger.tagged('Database Refresh') { Rails.logger.info message}
   end
 
 end

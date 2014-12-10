@@ -3,7 +3,6 @@ class CreateApiCalls < ActiveRecord::Migration
     create_table :api_calls do |t|
       t.string :source
       t.string :status
-
       t.timestamps
     end
   end
