@@ -1,5 +1,3 @@
 class HomeController < ApplicationController
-  def index
-    # todo: prime database?
-  end
+  before_filter :refresh_database
 end

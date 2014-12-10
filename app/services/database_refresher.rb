@@ -5,9 +5,9 @@ require 'net/http'
 class DatabaseRefresher
 
   def self.refresh
-    Rails.logger.info 'Refreshing movies'
+    Rails.logger.tagged('Database Refresh') { Rails.logger.info 'Checking for the need to refresh database.'}
     if refresh_cache?
-      Rails.logger.info 'The movie cache has expired, calling RottenTomatoes api.'
+      Rails.logger.tagged('Database Refresh') { Rails.logger.info 'The movie cache has expired, calling RottenTomatoes api.'}
       movies = call_api
       Movie.destroy_all  # todo: store results in temp file until verified?
       movies.each do |movie|
@@ -28,7 +28,7 @@ class DatabaseRefresher
       end
       # todo: log how many entries.
     else
-      Rails.logger.info 'The movie cache is still valid, database was not refreshed.'
+      Rails.logger.tagged('Database Refresh') { Rails.logger.info 'The movie cache is still valid, database was not refreshed.'}
     end
   end
 

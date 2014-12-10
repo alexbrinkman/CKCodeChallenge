@@ -35,3 +35,4 @@ Please feel free to use a different markup language if you do not plan to run
 * Deprication notices
 * Check for N+1 queries
 * Way to clear database
+* Rotten tomatoes icons
