@@ -26,6 +26,15 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.5em;
 }
 
+.alert {
+  color: $error-color;
+  background-color: $error-background;
+  border: 1px solid $error-border;
+  margin: 1em 0;
+  padding: 1em;
+  text-align: center;
+}
+
 header {
   @include outer-container;
   @include row();

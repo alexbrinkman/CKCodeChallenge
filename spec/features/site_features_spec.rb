@@ -27,6 +27,16 @@ feature 'site walkthrough' do
     expect(page).to have_css('a[href*=rottentomatoes]', count: 41)
   end
 
+  scenario 'site should not allow a show value larger than 25' do
+    visit '/past?show=?200'
+    expect(page).to have_css('.movie-view', count: 10)
+  end
+
+  scenario 'site should not allow an negative show value' do
+    visit '/past?show=?0'
+    expect(page).to have_css('.movie-view', count: 10)
+  end
+
   scenario 'user can change number of movies to show' do
     visit '/'
     select('25', from: 'show')
@@ -49,7 +59,7 @@ feature 'site walkthrough' do
     click_button('Project')
 
     # One row for the header, plus one for each movie.
-    expect(page).to have_css('tr', count: 6) #todo: better way to validate movies?.
+    expect(page).to have_css('tr', count: 6)
   end
 
 end

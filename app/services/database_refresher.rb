@@ -4,27 +4,16 @@ require 'net/http'
 
 class DatabaseRefresher
 
-  def self.refresh(force = false)
+  def self.refresh(force = false, source = :web)
     log 'Checking for the need to refresh database.'
     if force || refresh_cache?
       log 'The movie cache has expired, calling RottenTomatoes api.'
-      movies = call_api
-      Movie.destroy_all
-      movies.each_with_index do |movie, index|
-        new_movie = Movie.new
-        new_movie.box_office_ranking = index + 1
-        new_movie.title = movie['title']
-        new_movie.poster_url = movie['posters']['thumbnail']
-        new_movie.year = movie['year']
-        new_movie.mpaa_rating = movie['mpaa_rating']
-        new_movie.critics_rating = movie['ratings']['critics_rating']
-        new_movie.critics_score = movie['ratings']['critics_score']
-        new_movie.audience_rating = movie['ratings']['audience_rating']
-        new_movie.audience_score = movie['ratings']['audience_score']
-        new_movie.movie_details_url = movie['links']['alternate']
-        new_movie.movie_reviews_url = movie['links']['reviews']
-        new_movie.save
-        # todo: error handling
+      movies = call_api(source)
+      if movies.nil?
+        log 'The API call did not return any results, database not refreshed.'
+      else
+        Movie.destroy_all
+        load_movies(movies)
       end
       log 'The movie cache was sucessfully refreshed.'
     else
@@ -32,10 +21,9 @@ class DatabaseRefresher
     end
   end
 
-  def self.call_api
-    uri = URI(RT_CONSTANTS['callable_uri'])
-    response = Net::HTTP.get(uri)
-    ApiCall.create(source: 'web_refresh', status: 200) #todo: what if it fails?
+  def self.call_api(source)
+    response = HTTParty.get(RT_CONSTANTS['callable_uri'])
+    ApiCall.create(source: source, status: response.code)
     movie_hash = JSON.parse(response)
     movie_hash['movies']
   end
@@ -48,6 +36,28 @@ class DatabaseRefresher
 
   private
 
+  def self.load_movies(movies)
+    movies.each_with_index do |m, index|
+      movie = Movie.new
+      movie.box_office_ranking = index + 1
+      movie.title = m['title']
+      movie.poster_url = m['posters']['thumbnail']
+      movie.year = m['year']
+      movie.mpaa_rating = m['mpaa_rating']
+      movie.critics_rating = m['ratings']['critics_rating']
+      movie.critics_score = m['ratings']['critics_score']
+      movie.audience_rating = m['ratings']['audience_rating']
+      movie.audience_score = m['ratings']['audience_score']
+      movie.movie_details_url = m['links']['alternate']
+      movie.movie_reviews_url = m['links']['reviews']
+      if movie.save
+        log "Loaded #{movie.title}"
+      else
+        log "Unable to load #{movie.title}"
+      end
+    end
+  end
+
   def self.expired_cache?
     minutes_to_cache = RT_CONSTANTS['minutes_to_cache'].to_i
     last_successful_call = ApiCall.where(status: 200).last
@@ -59,7 +69,7 @@ class DatabaseRefresher
   end
 
   def self.log(message)
-    Rails.logger.tagged('Database Refresh') { Rails.logger.info message}
+    Rails.logger.tagged('Database Refresh') { Rails.logger.info "#{Time.zone.now}: #{message}"}
   end
 
 end
