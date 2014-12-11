@@ -25,7 +25,7 @@ Modify database.yml (if needed) for your dev environment, then run:
 ```$ rake
 
 ### Start the web server
-```$ rails s
+```$ rails s```
 
 ## Rake Tasks
 
