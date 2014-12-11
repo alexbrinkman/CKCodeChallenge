@@ -1,4 +1,4 @@
-<h1>Box Office Results for the Weekend of:</h1>
+<h1>Box Office Results for the Weekend of: <%= @last_saturday.strftime('%B %-d, %Y') %></h1>
 
 <% @movies.each do |movie| %>
   <%= render partial: 'movie_view', locals: {movie: movie} %>

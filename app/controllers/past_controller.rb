@@ -4,5 +4,6 @@ class PastController < ApplicationController
   def index
     count = params[:show] || 10
     @movies = Movie.order('box_office_ranking').limit(count)
+    @last_saturday = ProjectionEngine.last_saturday
   end
 end

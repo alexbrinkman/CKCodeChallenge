@@ -8,13 +8,18 @@
 </head>
 <body>
 
-<header><%= image_tag('header-logo.png') %></header>
+<header>
+  <%= link_to image_tag('header-logo.png'), 'http://rottentomatoes.com', class:'logo' %>
+  <%= render partial: 'shared/navigation' %>
+</header>
 
 <div class="main">
   <%= yield %>
 </div>
 
-<footer></footer>
+<footer>
+  <%= render partial: 'shared/navigation' %>
+</footer>
 
 </body>
 </html>

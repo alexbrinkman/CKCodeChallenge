@@ -1,6 +1,6 @@
 == README
 
-Welcome Commerce Kitchen, and thank you for the opportunity.
+Welcome Commerce Kitchen, I hope you enjoy what I've put together.
 
 # Assumptions
 * Only ever want 4 weeks of movie projections, and only 5 movies.
@@ -10,6 +10,8 @@ Welcome Commerce Kitchen, and thank you for the opportunity.
 * I didn't spend much time on speed of tests, I'm sure there are more efficient ways of building up and tearing down.  The suite runs plenty fast, so I didn't optimize.
 * Generally a call to an external api should be extracted to an adapter pattern.  That seemed like overkill for this project, but if there was any chance that the movie api would change from Rotten Tomatoes to something else, that would be a nice enhancement.
 * I simply used WEBrick, which obviously isn't appropriate for production, but I felt was appropriate for a test project.
+* N+1 queries.
+* Moving API calls to a background worker.
 
 # Logging
 grep "Database Refresh" ./log/development.log
@@ -43,12 +45,4 @@ Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
 
 #todo
-* Make sure brand guidelines are met
-* Move database refresh to background worker?
-* Deprication notices
-* Check for N+1 queries
-* Way to clear database?
-* Rotten tomatoes icons
-* Box office results of weekend: <need date!>
 * Source of apicall
-* Date formats for projections screen

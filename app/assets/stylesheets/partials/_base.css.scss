@@ -2,11 +2,19 @@
 @import "grid_settings";
 @import "neat";
 @import "partials/colors";
-// @import "partials/breakpoints";
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 87.5%;
+  background-color: $background-color;
+}
+
+a {
+  color: $green;
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 img {
@@ -20,6 +28,17 @@ h1, h2, h3, h4, h5, h6 {
 
 header {
   @include outer-container;
+  @include row();
+  margin-top: 3em;
+
+  .logo {
+    @include span-columns(4);
+  }
+
+  .navigation {
+    @include span-columns(8);
+    text-align: right;
+  }
 }
 
 div.main {
@@ -48,4 +67,10 @@ div.movie-view {
       margin-right: 1em;
     }
   }
+}
+
+footer {
+  @include outer-container;
+  margin-top: 4em;
+  text-align: center;
 }

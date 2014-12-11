@@ -7,11 +7,15 @@ class ProjectionEngine
     projection
   end
 
+  def self.last_saturday
+    Date.today.beginning_of_week - 2.days
+  end
+
   def self.get_projection_dates
     weeks = []
     4.times do |i|
       saturday = (Date.today.beginning_of_week + 5.days + (i * 7).days)
-      weeks << saturday.strftime('%-m/%-d')
+      weeks << saturday
     end
     weeks
   end

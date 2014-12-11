@@ -22,6 +22,9 @@ feature 'site walkthrough' do
     expect(page).to have_text('Box Office Results for the Weekend of:')
     expect(page).to have_css('.movie-view', count: 10)
     expect(page).to have_css('img.movie-thumb', count: 10)
+
+    # Test style guidelines with links. 1 for each icon, the two links, header link.
+    expect(page).to have_css('a[href*=rottentomatoes]', count: 41)
   end
 
   scenario 'user can change number of movies to show' do
@@ -43,7 +46,7 @@ feature 'site walkthrough' do
 
   scenario 'user can view projections of box office results' do
     visit '/'
-    click_button('Create')
+    click_button('Project')
 
     # One row for the header, plus one for each movie.
     expect(page).to have_css('tr', count: 6) #todo: better way to validate movies?.

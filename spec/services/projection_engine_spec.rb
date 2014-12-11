@@ -3,6 +3,19 @@ require 'spec_helper'
 
 RSpec.describe ProjectionEngine do
 
+  context '.last_saturday' do
+
+    after(:each) do
+      Timecop.return
+    end
+
+    it 'should return the previous Saturdays, starting on a known date' do
+      Timecop.freeze(Time.local(2014, 12, 10))
+      expect(ProjectionEngine.last_saturday).to eq(Date.new(2014, 12, 6))
+    end
+
+  end
+
   context '.get_projection_dates' do
 
     after(:each) do
@@ -11,12 +24,16 @@ RSpec.describe ProjectionEngine do
 
     it 'should return the next four Saturdays, starting on a Saturday' do
       Timecop.freeze(Time.local(2014, 11, 22))
-      expect(ProjectionEngine.get_projection_dates).to eq(['11/22', '11/29', '12/6', '12/13'])
+      expect(ProjectionEngine.get_projection_dates).to eq([
+        Date.new(2014, 11, 22), Date.new(2014, 11, 29),
+        Date.new(2014, 12, 6), Date.new(2014, 12, 13)])
     end
 
     it 'should return the next four Saturdays, starting on a Monday' do
       Timecop.freeze(Time.local(2015, 1, 5))
-      expect(ProjectionEngine.get_projection_dates).to eq(['1/10', '1/17', '1/24', '1/31'])
+      expect(ProjectionEngine.get_projection_dates).to eq([
+        Date.new(2015, 1, 10), Date.new(2015, 1, 17),
+        Date.new(2015, 1, 24), Date.new(2015, 1, 31)])
     end
 
   end
